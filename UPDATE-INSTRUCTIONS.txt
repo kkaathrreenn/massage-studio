@@ -1,0 +1,8 @@
+TELEGRAM CACHE REFRESH — version 20261118-4
+
+1) In the GitHub repository root, replace the existing index.html and admin.html with the two files in this folder.
+2) Commit the changes. Do not upload or replace supabase.js, script.js, style.css, admin.js, admin.css, SQL, or any database settings for this cache-only update.
+3) Edit the website link in the Telegram channel and add ?v=20261118-4 to its end. If the link already has a query parameter beginning with ?, replace its value with v=20261118-4; do not add a second ?.
+4) Open the new link in Telegram.
+
+This update changes only cache-busting query strings on resource references and cache hints. It does not change Supabase configuration or data.
