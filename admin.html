@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin.css?v=20261118-3">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
-  <script src="admin.js" defer></script>
+  <script src="admin.js?v=20261118-3" defer></script>
 </head>
 <body class="admin-page">
   <main class="admin-wrap">
@@ -40,7 +40,9 @@
             <button class="icon-button" id="next-month" aria-label="Следующий месяц" type="button">›</button>
           </div>
         </div>
-        <div class="table-scroll"><table class="schedule-table" id="schedule-table"></table></div>
+        <div class="calendar-scroll">
+          <div class="calendar-grid" id="schedule-calendar" aria-label="Календарь свободных окон"></div>
+        </div>
         <div class="table-footer">
           <span class="form-message" id="schedule-message" role="status">Изменения не сохранены, пока вы не нажмёте кнопку.</span>
           <button class="button button-primary" id="save-schedule" type="button">Сохранить изменения</button>

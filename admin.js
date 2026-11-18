@@ -4,7 +4,7 @@
   const $ = id => document.getElementById(id);
   const loginPanel = $('login-panel'), content = $('admin-content');
   const loginForm = $('login-form'), loginMessage = $('login-message');
-  const scheduleMessage = $('schedule-message'), table = $('schedule-table');
+  const scheduleMessage = $('schedule-message'), calendar = $('schedule-calendar');
   const monthLabel = $('month-label');
   let month = new Date(); month.setDate(1); month.setHours(12,0,0,0);
   let working = {}; let baseline = {}; let saving = false;
@@ -51,32 +51,80 @@
     working = {}; (data || []).forEach(row => { working[row.day] = Array.isArray(row.available_slots) ? row.available_slots : []; });
     dates.forEach(day => { if (!working[day]) working[day] = []; });
     baseline = JSON.parse(JSON.stringify(working));
-    renderTable(); message(scheduleMessage, 'Все изменения сохранены.');
+    renderCalendar(); message(scheduleMessage, 'Все изменения сохранены.');
   }
-  function renderTable() {
+  function renderCalendar() {
     const dates = monthDates();
-    const thead = document.createElement('thead'); const headRow = document.createElement('tr');
-    const dateTh = document.createElement('th'); dateTh.textContent = 'Дата'; headRow.append(dateTh);
-    TIMES.forEach(time => { const th = document.createElement('th'); th.textContent = time; headRow.append(th); });
-    thead.append(headRow);
-    const tbody = document.createElement('tbody');
+    const fragment = document.createDocumentFragment();
+    const weekdayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+
+    weekdayNames.forEach(name => {
+      const weekday = document.createElement('div');
+      weekday.className = 'calendar-weekday';
+      weekday.textContent = name;
+      fragment.append(weekday);
+    });
+
+    const firstDay = new Date(month.getFullYear(), month.getMonth(), 1, 12);
+    const mondayOffset = (firstDay.getDay() + 6) % 7;
+    for (let i = 0; i < mondayOffset; i++) {
+      const empty = document.createElement('div');
+      empty.className = 'calendar-empty';
+      empty.setAttribute('aria-hidden', 'true');
+      fragment.append(empty);
+    }
+
+    const today = new Date();
+    const todayKey = isoDay(today.getFullYear(), today.getMonth(), today.getDate());
+
     dates.forEach(day => {
-      const tr = document.createElement('tr'); const dateTd = document.createElement('td');
-      const [y,m,d] = day.split('-').map(Number); const dayDate = new Date(y,m-1,d,12);
-      dateTd.textContent = `${pad(d)}.${pad(m)} · ${new Intl.DateTimeFormat('ru-RU',{weekday:'short'}).format(dayDate)}`; tr.append(dateTd);
+      const [year, monthNumber, dayNumber] = day.split('-').map(Number);
+      const date = new Date(year, monthNumber - 1, dayNumber, 12);
+      const card = document.createElement('section');
+      card.className = 'calendar-day';
+      if (day === todayKey) card.classList.add('is-today');
+
+      const header = document.createElement('div');
+      header.className = 'calendar-day-header';
+      const dateNumber = document.createElement('strong');
+      dateNumber.className = 'calendar-day-number';
+      dateNumber.textContent = pad(dayNumber);
+      const weekday = document.createElement('span');
+      weekday.className = 'calendar-day-name';
+      weekday.textContent = new Intl.DateTimeFormat('ru-RU', { weekday: 'short' }).format(date).replace('.', '');
+      const selectedCount = document.createElement('span');
+      selectedCount.className = 'calendar-day-count';
+      selectedCount.textContent = `${(working[day] || []).length}/${TIMES.length}`;
+      selectedCount.setAttribute('aria-label', 'Количество свободных слотов');
+      header.append(dateNumber, weekday, selectedCount);
+      card.append(header);
+
+      const slots = document.createElement('div');
+      slots.className = 'calendar-day-slots';
       TIMES.forEach(time => {
-        const td = document.createElement('td'); const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = (working[day] || []).includes(time);
+        const label = document.createElement('label');
+        label.className = 'calendar-slot';
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.checked = (working[day] || []).includes(time);
         cb.setAttribute('aria-label', `${day}, ${time}: свободно`);
+        const timeText = document.createElement('span');
+        timeText.textContent = time;
         cb.addEventListener('change', () => {
           const values = new Set(working[day] || []);
           if (cb.checked) values.add(time); else values.delete(time);
           working[day] = TIMES.filter(t => values.has(t));
+          selectedCount.textContent = `${working[day].length}/${TIMES.length}`;
           message(scheduleMessage, dirty() ? 'Есть несохранённые изменения.' : 'Все изменения сохранены.', dirty() ? '' : 'success');
         });
-        td.append(cb); tr.append(td);
-      }); tbody.append(tr);
+        label.append(cb, timeText);
+        slots.append(label);
+      });
+      card.append(slots);
+      fragment.append(card);
     });
-    table.replaceChildren(thead, tbody);
+
+    calendar.replaceChildren(fragment);
   }
   async function changeMonth(delta) {
     if (dirty() && !confirm('Есть несохранённые изменения. Переключить месяц и отменить их?')) return;
