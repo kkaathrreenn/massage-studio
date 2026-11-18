@@ -1,8 +1,15 @@
-TELEGRAM CACHE REFRESH — version 20261118-4
+Обновление административной панели массажной студии
 
-1) In the GitHub repository root, replace the existing index.html and admin.html with the two files in this folder.
-2) Commit the changes. Do not upload or replace supabase.js, script.js, style.css, admin.js, admin.css, SQL, or any database settings for this cache-only update.
-3) Edit the website link in the Telegram channel and add ?v=20261118-4 to its end. If the link already has a query parameter beginning with ?, replace its value with v=20261118-4; do not add a second ?.
-4) Open the new link in Telegram.
+Заменить в корне существующего GitHub-репозитория только эти 3 файла:
+- admin.html
+- admin.css
+- admin.js
 
-This update changes only cache-busting query strings on resource references and cache hints. It does not change Supabase configuration or data.
+Не удалять и не заменять index.html, style.css, supabase.js, SQL-файлы или настройки Supabase.
+
+Новая таблица: даты месяца расположены по горизонтали (горизонтальная прокрутка),
+временные слоты — вертикальными строками. Первый столбец «Время» закреплён слева,
+заголовок с датами закреплён сверху.
+
+После замены файлов сделать Commit changes. Для открытия админки в Telegram используйте
+новый параметр версии в адресе: admin.html?v=20261118-5
