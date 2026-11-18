@@ -1,8 +1,8 @@
-/* Публичные настройки подключения Supabase.
-   Здесь используется только Publishable key; Secret key / service_role в браузер не помещать. */
+/* Вставьте Project URL и публичный publishable key из Supabase.
+   Publishable key начинается с sb_publishable_. Secret key сюда вставлять НЕЛЬЗЯ. */
 window.SUPABASE_CONFIG = {
-  url: 'https://otseqztskhkocwomdigq.supabase.co',
-  publishableKey: 'sb_publishable_R516nMqHJO5H21ZJ3Vc_Bw_egYAa3gL'
+  url: 'YOUR_SUPABASE_URL',
+  publishableKey: 'YOUR_SUPABASE_PUBLISHABLE_KEY'
 };
 
 window.createStudioSupabase = function () {
