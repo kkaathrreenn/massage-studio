@@ -32,10 +32,9 @@ RLS включён. Политика `SELECT` для `authenticated` с выра
 
 ## Подключение Supabase
 
-1. В Supabase открой **Connect** и скопируй Project URL. Publishable key также можно взять в **Settings → API Keys**.
-2. Используй именно **Publishable key** (`sb_publishable_...`) для клиентского JavaScript. Старый `anon` key также поддерживается, если publishable key ещё не создан.
-3. Открой `supabase.js` и замени `YOUR_SUPABASE_URL` и `YOUR_SUPABASE_PUBLISHABLE_KEY` на свои значения.
-4. Не вставляй `secret` / `service_role` key в браузерный проект.
+Project URL и Publishable key уже внесены в `supabase.js`. В клиентском JavaScript используется только публичный ключ `sb_publishable_...`. Никогда не добавляйте сюда `secret` или `service_role` key.
+
+Таблицы и политики для этого экземпляра проекта создавались вручную через Supabase Dashboard → Table Editor и Policies; SQL Editor для настройки не требуется. В базе используются только `schedule_days` и `admin_users`. Таблица рекомендаций не создавалась и функциональность рекомендаций в этой версии отключена.
 
 ## Проверка
 
