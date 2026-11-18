@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f4f2">
+  <title>Управление расписанием</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="admin.js" defer></script>
+</head>
+<body class="admin-page">
+  <main class="admin-wrap">
+    <header class="admin-header">
+      <div><p class="eyebrow">МАССАЖНАЯ СТУДИЯ</p><h1>Управление расписанием</h1></div>
+      <button class="button button-quiet" id="logout-button" type="button" hidden>Выйти</button>
+    </header>
+
+    <section class="login-panel panel" id="login-panel">
+      <h2>Вход администратора</h2>
+      <form id="login-form" class="login-form">
+        <label>Email<input id="login-email" type="email" autocomplete="username" required></label>
+        <label>Пароль<input id="login-password" type="password" autocomplete="current-password" required></label>
+        <button class="button button-primary" type="submit">Войти</button>
+        <p class="form-message" id="login-message" role="status"></p>
+      </form>
+    </section>
+
+    <div id="admin-content" hidden>
+      <section class="panel schedule-admin-panel">
+        <div class="section-heading">
+          <div><h2>Календарь свободных окон</h2><p>Отмеченные ячейки — свободное время. Снятая отметка — занято.</p></div>
+          <div class="month-navigation">
+            <button class="icon-button" id="previous-month" aria-label="Предыдущий месяц" type="button">‹</button>
+            <strong id="month-label">—</strong>
+            <button class="icon-button" id="next-month" aria-label="Следующий месяц" type="button">›</button>
+          </div>
+        </div>
+        <div class="table-scroll"><table class="schedule-table" id="schedule-table"></table></div>
+        <div class="table-footer">
+          <span class="form-message" id="schedule-message" role="status">Изменения не сохранены, пока вы не нажмёте кнопку.</span>
+          <button class="button button-primary" id="save-schedule" type="button">Сохранить изменения</button>
+        </div>
+      </section>
+
+    </div>
+    <p class="global-message" id="global-message" role="status"></p>
+  </main>
+</body>
+</html>

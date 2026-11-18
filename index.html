@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="Свободные окна для записи на массаж">
+  <title>Свободные окна — массаж</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body class="public-page">
+  <div class="background-image" aria-hidden="true"></div>
+  <main class="public-shell">
+    <div class="availability-label">Свободные окна</div>
+    <section class="schedule-card" aria-label="Расписание массажа">
+      <div class="date-navigation">
+        <button class="date-arrow" id="previous-day" aria-label="Предыдущий день" type="button">‹</button>
+        <div class="date-copy">
+          <div class="selected-date" id="selected-date">—</div>
+          <div class="weekday" id="weekday">—</div>
+        </div>
+        <button class="date-arrow" id="next-day" aria-label="Следующий день" type="button">›</button>
+      </div>
+      <div class="slots-grid" id="slots-grid" aria-live="polite">
+        <span class="loading-text">Загрузка расписания…</span>
+      </div>
+      <p class="schedule-error" id="schedule-error" role="status" hidden>Не удалось загрузить расписание. Попробуйте обновить страницу.</p>
+    </section>
+    <a class="booking-button" href="https://t.me/chexova_2" target="_blank" rel="noopener noreferrer">Записаться</a>
+  </main>
+</body>
+</html>
