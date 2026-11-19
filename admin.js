@@ -100,6 +100,11 @@
         td.className = 'slot-cell';
         if (day === todayKey) td.classList.add('is-today');
 
+        // Make the whole cell a comfortable touch target, not only the tiny checkbox.
+        const hitArea = document.createElement('label');
+        hitArea.className = 'slot-hit-area';
+        hitArea.setAttribute('aria-label', `${day}, ${time}`);
+
         const cb = document.createElement('input');
         cb.type = 'checkbox';
         cb.className = 'schedule-checkbox';
@@ -112,7 +117,8 @@
           working[day] = TIMES.filter(t => values.has(t));
           message(scheduleMessage, dirty() ? 'Есть несохранённые изменения.' : 'Все изменения сохранены.', dirty() ? '' : 'success');
         });
-        td.append(cb);
+        hitArea.append(cb);
+        td.append(hitArea);
         tr.append(td);
       });
       tbody.append(tr);
