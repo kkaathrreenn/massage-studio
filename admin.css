@@ -119,6 +119,7 @@ textarea { resize: vertical; }
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 }
+
 .schedule-checkbox {
   display: block;
   width: 23px;
@@ -128,7 +129,9 @@ textarea { resize: vertical; }
   padding: 0;
   accent-color: #292925;
   cursor: pointer;
-  pointer-events: auto;
+  /* Mouse/touch clicks are handled by the containing table cell.
+     The input remains keyboard-focusable and toggles with Space. */
+  pointer-events: none;
   touch-action: manipulation;
   vertical-align: middle;
 }

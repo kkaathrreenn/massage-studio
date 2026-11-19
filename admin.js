@@ -100,8 +100,9 @@
         td.className = 'slot-cell';
         if (day === todayKey) td.classList.add('is-today');
 
-        // Make the whole cell a comfortable touch target, not only the tiny checkbox.
-        const hitArea = document.createElement('label');
+        // Desktop and touch interaction: the entire cell handles pointer clicks.
+        // The checkbox remains keyboard-accessible (Tab + Space).
+        const hitArea = document.createElement('div');
         hitArea.className = 'slot-hit-area';
         hitArea.setAttribute('aria-label', `${day}, ${time}`);
 
@@ -115,8 +116,18 @@
           const values = new Set(working[day] || []);
           if (cb.checked) values.add(time); else values.delete(time);
           working[day] = TIMES.filter(t => values.has(t));
-          message(scheduleMessage, dirty() ? 'Есть несохранённые изменения.' : 'Все изменения сохранены.', dirty() ? '' : 'success');
+          const hasChanges = dirty();
+          message(scheduleMessage, hasChanges ? 'Есть несохранённые изменения.' : 'Все изменения сохранены.', hasChanges ? '' : 'success');
         });
+
+        // pointer-events is disabled on the visual checkbox in CSS, so mouse/touch
+        // clicks land on this cell handler exactly once in desktop browsers too.
+        td.addEventListener('click', () => {
+          cb.checked = !cb.checked;
+          cb.focus({ preventScroll: true });
+          cb.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+
         hitArea.append(cb);
         td.append(hitArea);
         tr.append(td);
